@@ -1,0 +1,34 @@
+<div>
+
+    <table>
+        <tr>
+            <td></td>
+            <td ng-repeat="md in monthDays" colspan="{{md.days.length}}">
+                {{md.month}}
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+
+            <td ng-repeat="d in allDays"><div class="dayHeader">{{d}}</div></td>
+        </tr>
+        <tr><td></td><td colspan="{{allDays.length}}">Reading in progress</td></tr>
+        <tr ng-repeat="book in books">
+            <td>
+                <md-button class="bookLink" ng-href="/book-tracker/#/books/{{book.name}}" target="_blank">{{book.name}}</md-button>
+                </td>
+            <td ng-repeat="day in book.days">
+                <div ng-if="day.type=='READING'" class="b_reading"> </div>
+                <div ng-if="day.type=='START'" class="b_start"> </div>
+                <div ng-if="day.type=='NOT_READING'" class="b_not_reading"
+                     ng-click="notReadingClick($event, day, book)"> </div>
+            </td>
+        </tr>
+        <tr><td></td><td colspan="{{allDays.length}}">Finished books</td></tr>
+    </table>
+
+    <input ng-model="newBookName">
+    <button ng-click="addBook()">Add Book</button>
+
+</div>
+

@@ -1,0 +1,40 @@
+.b_reading {
+    background: #fea2ff;
+    width: 18px;
+    height: 18px;
+    border: 1px;
+    border-color: black;
+}
+.b_start {
+    background: #ff52fb;
+    width: 18px;
+    height: 18px;
+    border: 1px;
+    border-color: black;
+}
+.b_not_reading {
+    background: #fdf8ff;
+    width: 18px;
+    height: 18px;
+    border: 1px;
+    border-color: black;
+}
+.dayHeader {
+    background: #d4d8ff;
+    width: 18px;
+    height: 18px;
+    border: 1px;
+    border-color: black;
+    text-align: center;
+}
+td{
+    border: 1px solid black;
+}
+
+
+
+.md-button.bookLink {
+    line-height: 18px;
+    margin: 0px 0px;
+    min-height: 18px;
+}
