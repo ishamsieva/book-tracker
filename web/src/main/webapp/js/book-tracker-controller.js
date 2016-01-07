@@ -61,12 +61,12 @@ bookAppController.controller('BookTrackCtrl', ['$scope', '$http', '$httpParamSer
 
 
 
-bookAppController.controller('BookDetailCtrl', ['$scope', '$http', '$httpParamSerializer', '$routeParams',
+bookAppController.controller('BookDetailCtrl', ['$scope', '$http', '$httpParamSerializer', '$routeParams', '$window',
 
-    function ($scope, $http, $httpParamSerializer, $routeParams) {
+    function ($scope, $http, $httpParamSerializer, $routeParams, $window) {
         $scope.bookId = $routeParams.bookId;
 
-        $scope.deleteBook = function($window) {
+        $scope.deleteBook = function() {
             $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
             $http.post('/book-tracker/deleteBook',
                 $httpParamSerializer({ book :  $scope.bookId}) ).success(function(data){
