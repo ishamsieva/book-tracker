@@ -10,7 +10,7 @@
         <tr>
             <td></td>
 
-            <td ng-repeat="d in allDays"><div class="dayHeader">{{d}}</div></td>
+            <td ng-repeat="d in allDays track by $index"><div class="dayHeader">{{d}}</div></td>
         </tr>
         <tr><td></td><td colspan="{{allDays.length}}">Reading in progress</td></tr>
         <tr ng-repeat="book in books">

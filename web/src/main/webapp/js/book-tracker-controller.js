@@ -7,13 +7,8 @@ bookAppController.controller('BookTrackCtrl', ['$scope', '$http', '$httpParamSer
         $http.get('/book-tracker/all').success(function (data) {
             $scope.books = data.books;
             $scope.monthDays = data.monthDays;
-            $scope.allDays = [];
+            $scope.allDays = data.allDays;
 
-            angular.forEach($scope.monthDays, function(monthes){
-                angular.forEach(monthes.days, function(day){
-                    $scope.allDays.push(day);
-                })
-            });
         });
 
         $scope.addBook = function() {

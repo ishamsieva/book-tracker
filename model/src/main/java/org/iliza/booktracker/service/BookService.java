@@ -1,6 +1,7 @@
 package org.iliza.booktracker.service;
 
 import org.iliza.booktracker.model.Book;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ public interface BookService {
     String persistBook(Book book);
 
     String retrieveBooks();
+
+    JSONObject retrieveBooks2();
 
     void purgeBooks();
 

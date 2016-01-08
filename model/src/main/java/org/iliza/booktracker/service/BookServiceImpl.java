@@ -67,6 +67,37 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public JSONObject retrieveBooks2() {
+        FindIterable<Document> iterable = bookPersist.retrieveBooks();
+
+        JSONArray values = new JSONArray();
+
+        String userStartDate = null;
+
+        if (iterable.iterator().hasNext()) {
+            Document userDoc = iterable.iterator().next();
+            userStartDate = userDoc.getString("startDate");
+            List<Document> books = (List<Document>)userDoc.get("books");
+            for (Document bookDoc : books) {
+                JSONObject bookJson = new JSONObject();
+                bookJson.put("name", bookDoc.getString("name"));
+                bookJson.put("startReading", bookDoc.getString("startReading"));
+                bookJson.put("days", getDays(bookDoc, userStartDate));
+
+                values.put(bookJson);
+            }
+        }
+
+        JSONObject booksGridJson = new JSONObject();
+        booksGridJson.put("books", values);
+        booksGridJson.put("user", "iliza");
+        booksGridJson.put("monthDays", getMonthDayData(userStartDate));
+        booksGridJson.put("allDays", getDayData(userStartDate));
+
+        return booksGridJson;
+    }
+
+    @Override
     public String retrieveBooks() {
 
         FindIterable<Document> iterable = bookPersist.retrieveBooks();
@@ -93,6 +124,7 @@ public class BookServiceImpl implements BookService {
         booksGridJson.put("books", values);
         booksGridJson.put("user", "iliza");
         booksGridJson.put("monthDays", getMonthDayData(userStartDate));
+        booksGridJson.put("allDays", getDayData(userStartDate));
 
 
         return booksGridJson.toString();
@@ -123,6 +155,26 @@ public class BookServiceImpl implements BookService {
             runningDate = runningDate.plusDays(1);
         }
         mddList.add(mdd);
+
+        return mddList;
+    }
+
+    private List<String> getDayData(String userStartDay) {
+
+        LocalDate userStartDate = LocalDate.parse(userStartDay, formatter);
+        LocalDate firstDayofCurrentMonth = LocalDate.now().withDayOfMonth(1);
+        LocalDate lastDayofCurrentMonth = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
+
+        LocalDate runningDate = (userStartDate.isBefore(firstDayofCurrentMonth))?
+                userStartDate : firstDayofCurrentMonth;
+
+        List<String> mddList = new LinkedList<>();
+
+        while(!runningDate.isAfter(lastDayofCurrentMonth)) {
+
+            mddList.add(String.valueOf(runningDate.getDayOfMonth()));
+            runningDate = runningDate.plusDays(1);
+        }
 
         return mddList;
     }

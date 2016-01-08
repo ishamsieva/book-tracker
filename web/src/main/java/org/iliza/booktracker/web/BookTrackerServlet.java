@@ -3,6 +3,7 @@ package org.iliza.booktracker.web;
 import org.iliza.booktracker.model.Book;
 import org.iliza.booktracker.service.BookService;
 import org.iliza.booktracker.service.BookServiceImpl;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,9 +28,13 @@ public class BookTrackerServlet extends HttpServlet {
         String query = request.getServletPath();
 
         if ("/all".equals(query)) {
-            String result = bookService.retrieveBooks();
+            //String result = bookService.retrieveBooks();
 
-            response.getWriter().write(result);
+            //response.getWriter().write(result);
+
+            JSONObject res = bookService.retrieveBooks2();
+            response.getWriter().print(res);
+            response.getWriter().flush();
         } else if ("/addBook".equals(query)){
             String bookName = request.getParameter("book");
             Book book = new Book();
