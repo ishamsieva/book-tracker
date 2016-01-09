@@ -2,19 +2,43 @@
     background: #fea2ff;
     width: 18px;
     height: 18px;
-    padding: 0 0 0 0
+    padding: 0 0 0 0;
+    border: 1px solid black;
 }
 .b_start {
     background: #ff52fb;
     width: 18px;
     height: 18px;
-    padding: 0 0 0 0
+    padding: 0 0 0 0;
+    border: 1px solid black;
 }
 .b_not_reading {
     background: #fdf8ff;
     width: 18px;
     height: 18px;
-    padding: 0 0 0 0
+    padding: 0 0 0 0;
+    border: 1px solid black;
+}
+.b_reading_now {
+    background: #fea2ff;
+    width: 18px;
+    height: 18px;
+    padding: 0 0 0 0;
+    border: 2px solid black;
+}
+.b_start_now {
+    background: #ff52fb;
+    width: 18px;
+    height: 18px;
+    padding: 0 0 0 0;
+    border: 2px solid black;
+}
+.b_not_reading_now {
+    background: #fdf8ff;
+    width: 18px;
+    height: 18px;
+    padding: 0 0 0 0;
+    border: 2px solid black;
 }
 .dayHeader {
     background: #d4d8ff;
@@ -22,9 +46,7 @@
     height: 18px;
     text-align: center;
 }
-td{
-    border: 1px solid black;
-}
+
 
 
 

@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
@@ -191,7 +192,20 @@ public class BookServiceImpl implements BookService {
             list.add(day);
         }
 
-        list.sort((o1, o2) -> {
+
+        LocalDate userStartDate = LocalDate.parse(userStartDay, formatter);
+        LocalDate firstDayofCurrentMonth = LocalDate.now().withDayOfMonth(1);
+
+        LocalDate earliestStartDate = (userStartDate.isBefore(firstDayofCurrentMonth))?
+                userStartDate : firstDayofCurrentMonth;
+
+        return getFillInDaysList(list, earliestStartDate);
+
+    }
+
+    private List<Day> getFillInDaysList(LinkedList<Day> days, LocalDate from) {
+
+        days.sort((o1, o2) -> {
             LocalDate o1Date = LocalDate.parse(o1.getDate(), formatter);
             LocalDate o2Date = LocalDate.parse(o2.getDate(), formatter);
 
@@ -204,36 +218,61 @@ public class BookServiceImpl implements BookService {
             }
         });
 
-        LocalDate userStartDate = LocalDate.parse(userStartDay, formatter);
-        LocalDate firstDayofCurrentMonth = LocalDate.now().withDayOfMonth(1);
+        LocalDate firstReadingDay = LocalDate.parse(days.getFirst().getDate(), formatter);
+        LinkedList<Day> fillInDays = new LinkedList<>();
 
-        LocalDate firstReadingDay = LocalDate.parse(list.getFirst().getDate(), formatter);
+        LocalDate runningDayRead = from;
 
-        LocalDate earliestStartDate = (userStartDate.isBefore(firstDayofCurrentMonth))?
-                userStartDate : firstDayofCurrentMonth;
+        while (!runningDayRead.isEqual(firstReadingDay)) {
 
-
-        while (!earliestStartDate.isEqual(firstReadingDay)) {
-            firstReadingDay = firstReadingDay.minusDays(1);
             Day day = new Day();
-            day.setDate(firstReadingDay.format(formatter));
+            day.setDate(runningDayRead.format(formatter));
             day.setType("NOT_READING");
-            list.addFirst(day);
+            fillInDays.addFirst(day);
+            runningDayRead = runningDayRead.plusDays(1);
         }
 
         LocalDate lastDayofMonth = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
 
-        LocalDate lastDayRead = LocalDate.parse(list.getLast().getDate(), formatter);
+        fillInDays.add(days.getFirst());
 
-        while(!lastDayRead.isEqual(lastDayofMonth)) {
-            lastDayRead = lastDayRead.plusDays(1);
-            String dayLast = lastDayRead.format(formatter);
+        runningDayRead = firstReadingDay;
+
+        for (int i = 1; i < days.size(); i++) {
+            LocalDate day = LocalDate.parse(days.get(i).getDate(), formatter);
+            int daysMissed = Period.between(runningDayRead, day).getDays();
+            for (int y = 1; y < daysMissed; y++) {
+                Day dayMissed = new Day();
+                dayMissed.setDate(runningDayRead.plusDays(y).format(formatter));
+                dayMissed.setType("NOT_READING");
+                fillInDays.addLast(dayMissed);
+            }
+            fillInDays.add(days.get(i));
+            runningDayRead = day;
+        }
+
+        while(!runningDayRead.isEqual(lastDayofMonth)) {
+            runningDayRead = runningDayRead.plusDays(1);
+            String dayLast = runningDayRead.format(formatter);
             Day day = new Day();
             day.setDate(dayLast);
             day.setType("NOT_READING");
-            list.addLast(day);
+            fillInDays.addLast(day);
         }
 
-        return list;
+        for (Day d : fillInDays) {
+            LocalDate ld = LocalDate.parse(d.getDate(), formatter);
+            LocalDate now = LocalDate.now();
+            if (ld.isAfter(now)) {
+                d.setType("NOT_READING_FUT");
+            }
+            if (ld.isEqual(now)) {
+                d.setType("NOW_" + d.getType());
+            }
+        }
+
+        return fillInDays;
     }
+
+
 }

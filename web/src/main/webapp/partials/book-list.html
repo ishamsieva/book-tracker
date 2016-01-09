@@ -22,6 +22,13 @@
                 <div ng-if="day.type=='START'" class="b_start"> </div>
                 <div ng-if="day.type=='NOT_READING'" class="b_not_reading"
                      ng-click="notReadingClick($event, day, book)"> </div>
+
+                <div ng-if="day.type=='NOW_READING'" class="b_reading_now"> </div>
+                <div ng-if="day.type=='NOW_START'" class="b_start_now"> </div>
+                <div ng-if="day.type=='NOW_NOT_READING'" class="b_not_reading_now"
+                     ng-click="notReadingClick($event, day, book)"> </div>
+
+                <div ng-if="day.type=='NOT_READING_FUT'" class="b_not_reading"> </div>
             </td>
         </tr>
         <tr><td></td><td colspan="{{allDays.length}}">Finished books</td></tr>
