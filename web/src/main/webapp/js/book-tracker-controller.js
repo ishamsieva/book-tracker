@@ -31,7 +31,8 @@ bookAppController.controller('BookTrackCtrl', ['$scope', '$http', '$httpParamSer
                 .textContent('Are you still reading "' + book.name + '" on ' + day.date + ' or have you finished it?')
                 .targetEvent(ev)
                 .ok("Reading")
-                .cancel('Finished');
+                .cancel('Finished')
+                .clickOutsideToClose(true);
 
             $mdDialog.show(confirm).then(function() {
                 // Reading
@@ -42,11 +43,11 @@ bookAppController.controller('BookTrackCtrl', ['$scope', '$http', '$httpParamSer
                  })
             }, function() {
                 // Finished
-                /*$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+                $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
                  $http.post('/book-tracker/finishedReading',
                  $httpParamSerializer({ book : book.name, date : day.date}) ).success(function(data){
-                 $scope.books = data.books;
-                 })*/
+                    $scope.books = data.books;
+                 })
             });
             //}
 

@@ -12,6 +12,7 @@ import org.iliza.booktracker.model.Book;
 import org.iliza.booktracker.model.Day;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,28 +68,49 @@ public class BookPersistImpl implements BookPersist {
     }
 
     @Override
+    public void addFinishDate(String bookName, String date) {
+        MongoClient mongoClient = new MongoClient();
+        MongoDatabase md = mongoClient.getDatabase("test");
+
+        MongoCollection<Document> collection = md.getCollection("books");
+
+        collection.findOneAndUpdate(new Document("user", "iliza").append("books.name", bookName),
+                new Document("$addToSet",
+                        new Document("books.$.days", new Document("date", date).append("type", "FINISHED"))));
+
+        collection.findOneAndUpdate(new Document("user", "iliza").append("books.name", bookName),
+                new Document("$set", new Document("books.$.finishingReading", date)));
+
+    }
+
+    @Override
     public void persistBook(Book book) {
         MongoClient mongoClient = new MongoClient();
         MongoDatabase md = mongoClient.getDatabase("test");
 
-        String today = LocalDate.now().toString();
+        //String today = LocalDate.now().toString();
+
+        String today = "2015-12-30";
 
         MongoCollection<Document> collection = md.getCollection("books");
 
         Document newBook = new Document("name", book.getName())
                 .append("startReading", today)
+                .append("finished", false)
                 .append("days", asList(new Document("date", today)
                         .append("type", "START")));
 
+        collection.insertOne(newBook);
 
-        if (collection.find(new Document("user", "iliza")).iterator().hasNext()) {
+
+        /*if (collection.find(new Document("user", "iliza")).iterator().hasNext()) {
             collection.findOneAndUpdate(new Document("user", "iliza"),
                     new Document("$addToSet", new Document("books", newBook)));
         } else {
             collection.insertOne(new Document("user", "iliza")
                     .append("startDate", today)
                     .append("books", asList(newBook)));
-        }
+        }*/
 
     }
 

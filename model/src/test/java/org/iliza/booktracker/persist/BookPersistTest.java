@@ -21,9 +21,14 @@ public class BookPersistTest {
         book2.setName("Gradle In Action - 2");
         bp.persistBook(book2);
 
-        //String json = bp.retrieveBooks();
+        String json = bp.retrieveBooks();
 
-        //bp.purgeBooks();
+    }
+
+    @Test
+    public void testPurge() {
+        BookService bp = new BookServiceImpl();
+        bp.purgeBooks();
     }
 
     @Test
@@ -57,6 +62,12 @@ public class BookPersistTest {
     public void testDeleteBook() {
         BookService bs = new BookServiceImpl();
         bs.deleteBook("new one");
+    }
+
+    @Test
+    public void testAddFinish() {
+        BookPersist bp = new BookPersistImpl();
+        bp.addFinishDate("Gradle In Action - 2", "2016-01-09");
     }
 
 }

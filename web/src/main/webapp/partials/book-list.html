@@ -32,6 +32,22 @@
             </td>
         </tr>
         <tr><td></td><td colspan="{{allDays.length}}">Finished books</td></tr>
+        <tr ng-repeat="book in booksFinished" class="booksRow">
+            <td class="booksRow">
+                <md-button class="bookLink" ng-href="/book-tracker/#/books/{{book.name}}" target="_blank">{{book.name}}</md-button>
+            </td>
+            <td ng-repeat="day in book.days" class="booksRow">
+                <div ng-if="day.type=='READING'" class="b_reading"> </div>
+                <div ng-if="day.type=='START'" class="b_start"> </div>
+                <div ng-if="day.type=='NOT_READING'" class="b_not_reading"> </div>
+
+                <div ng-if="day.type=='NOW_READING'" class="b_reading_now"> </div>
+                <div ng-if="day.type=='NOW_START'" class="b_start_now"> </div>
+                <div ng-if="day.type=='NOW_NOT_READING'" class="b_not_reading_now"> </div>
+
+                <div ng-if="day.type=='NOT_READING_FUT'" class="b_not_reading"> </div>
+            </td>
+        </tr>
     </table>
 
     <input ng-model="newBookName">

@@ -19,6 +19,8 @@ public interface BookPersist {
 
     void addDate(String bookName, String date);
 
+    void addFinishDate(String bookName, String date);
+
     String getStartDateOfBook(String bookName);
 
     void deleteBook(String bookName);
