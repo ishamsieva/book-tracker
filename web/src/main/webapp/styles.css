@@ -2,29 +2,24 @@
     background: #fea2ff;
     width: 18px;
     height: 18px;
-    border: 1px;
-    border-color: black;
+    padding: 0 0 0 0
 }
 .b_start {
     background: #ff52fb;
     width: 18px;
     height: 18px;
-    border: 1px;
-    border-color: black;
+    padding: 0 0 0 0
 }
 .b_not_reading {
     background: #fdf8ff;
     width: 18px;
     height: 18px;
-    border: 1px;
-    border-color: black;
+    padding: 0 0 0 0
 }
 .dayHeader {
     background: #d4d8ff;
     width: 18px;
     height: 18px;
-    border: 1px;
-    border-color: black;
     text-align: center;
 }
 td{
@@ -36,5 +31,20 @@ td{
 .md-button.bookLink {
     line-height: 18px;
     margin: 0px 0px;
+    min-height: 16px;
+    max-height: 16px;
+}
+
+.booksRow {
     min-height: 18px;
+    max-height: 18px;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 0 0 0
+}
+
+.ma2 {
+    max-width: 42px;
+    overflow: hidden;
+    text-overflow: clip;
 }

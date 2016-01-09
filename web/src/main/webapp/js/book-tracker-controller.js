@@ -16,6 +16,7 @@ bookAppController.controller('BookTrackCtrl', ['$scope', '$http', '$httpParamSer
             $http.post('/book-tracker/addBook',
                 $httpParamSerializer({ book :  $scope.newBookName}) ).success(function(data){
                 $scope.books = data.books;
+                $scope.newBookName = "";
             })
         };
 
@@ -34,11 +35,11 @@ bookAppController.controller('BookTrackCtrl', ['$scope', '$http', '$httpParamSer
 
             $mdDialog.show(confirm).then(function() {
                 // Reading
-                /*$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+                $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
                  $http.post('/book-tracker/addReading',
                  $httpParamSerializer({ book : book.name, date : day.date}) ).success(function(data){
-                 $scope.books = data.books;
-                 })*/
+                    $scope.books = data.books;
+                 })
             }, function() {
                 // Finished
                 /*$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
